@@ -7,18 +7,19 @@ bot = Discordrb::Bot.new token: DISCORD_CONFIG['BOT_TOKEN']
 
 require_relative 'commands/wallet'
 require_relative 'commands/bet'
+require_relative 'commands/bet_mode'
+
+require_relative 'helpers/command_helper'
 
 commands = [
   { regex: /^(钱包|錢包)$/, command: Wallet },
-  { regex: /^(押注|押註)\s*(\d+)$/, command: Bet }
+  { regex: /^(押注|押註)\s*(\d+)$/, command: Bet },
+  { regex: /^(赌徒模式|賭徒模式)$/, command: BetMode }
 ]
 
 commands.each do |command|
   bot.message(contains: command[:regex]) do |event|
-    matches = event.message.content.match(command[:regex]).captures
-    _, *args = matches
-    command_instance = command[:command].new(event)
-    command_instance.run(*args)
+    CommandHelper.execute(command[:command], command[:regex], event)
   end
 end
 
