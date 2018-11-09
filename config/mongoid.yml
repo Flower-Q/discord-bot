@@ -1,0 +1,11 @@
+development:
+  clients:
+    default:
+      database: xiaobing_db
+      hosts:
+        - localhost:27017
+      options:
+        max_pool_size: 5
+
+  options:
+    log_level: :info
