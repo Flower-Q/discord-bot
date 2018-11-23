@@ -1,8 +1,11 @@
 require 'possibly'
+require_relative 'transaction'
 require_relative '../models/user'
 
 module UserService
   class << self
+    include Transaction
+
     def find_by_id(id)
       User.where(_id: id).first_or_create
     end
@@ -14,18 +17,24 @@ module UserService
     def withdraw(id, amount)
       user = find_by_id(id)
       if amount > user.gold
-        None
+        None()
       else
         user.gold -= amount
         user.save!
-        Some(user)
+        Some(gold: user.gold, delta: -amount)
       end
     end
 
     def deposit(id, amount)
       user = find_by_id(id)
       user.gold += amount
-      user.save! ? Some(user) : None()
+      user.save! ? Some(gold: user.gold, delta: amount) : None()
+    end
+
+    def transfer(sender_id, recipient_id, amount)
+      transaction(User) { withdraw(sender_id, amount) }
+        .pipe { deposit(recipient_id, amount) }
+        .do_transaction
     end
 
     def check_in(id)
@@ -38,7 +47,7 @@ module UserService
         deposit(id, reward)
         user.last_check_in_date = Date.today.to_s
         user.save!
-        Some(reward)
+        Some(reward: reward)
       end
     end
 

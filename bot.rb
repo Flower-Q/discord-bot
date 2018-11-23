@@ -10,6 +10,7 @@ require_relative 'commands/wallet'
 require_relative 'commands/bet'
 require_relative 'commands/bet_mode'
 require_relative 'commands/check_in'
+require_relative 'commands/transfer'
 
 require_relative 'helpers/command_helper'
 
@@ -17,12 +18,13 @@ commands = [
   { regex: /^(钱包|錢包)$/, command: Wallet },
   { regex: /^(押注|押註)\s*(\d+)$/, command: Bet },
   { regex: /^(赌徒模式|賭徒模式)$/, command: BetMode },
-  { regex: /^(签到|簽到)$/, command: CheckIn }
+  { regex: /^(签到|簽到)$/, command: CheckIn },
+  { regex: /^(转账|轉帳)\s+(<@!?\d+>)\s+(\d+)$/, command: Transfer }
 ]
 
-commands.each do |command|
-  bot.message(contains: command[:regex]) do |event|
-    CommandHelper.execute(command[:command], command[:regex], event)
+commands.each do |regex:, command:|
+  bot.message(contains: regex) do |event|
+    CommandHelper.execute(command, regex, event)
   end
 end
 

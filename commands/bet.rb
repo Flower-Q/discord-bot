@@ -25,9 +25,10 @@ class Bet
     return respond_insufficient_gold if gold < amount
 
     won = [true, false].sample
-    updated_user = update_gold(won, amount)
-    updated_user.map { |user| respond_bet_result(user.gold, won, amount) }
-                .or_else { respond_insufficient_gold }
+
+    update_gold(won, amount)
+      .map(&method(:respond_bet_result))
+      .or_else { respond_insufficient_gold }
   end
 
   def update_gold(won, amount)
@@ -42,8 +43,8 @@ class Bet
     respond_with_mention '余额不足！'
   end
 
-  def respond_bet_result(gold, is_won, amount)
-    respond_with_mention "余额：#{gold}元 (#{is_won ? '+' : '-'}#{amount})"
+  def respond_bet_result(gold:, delta:)
+    respond_with_mention format("余额：#{gold}元 (%+d)", delta)
   end
 
   def clean_up_messages
