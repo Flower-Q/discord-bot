@@ -11,6 +11,7 @@ require_relative 'commands/bet'
 require_relative 'commands/bet_mode'
 require_relative 'commands/check_in'
 require_relative 'commands/transfer'
+require_relative 'commands/slot/slot'
 
 require_relative 'helpers/command_helper'
 
@@ -19,7 +20,8 @@ commands = [
   { regex: /^(押注|押註)\s*(\d+)$/, command: Bet },
   { regex: /^(赌徒模式|賭徒模式)$/, command: BetMode },
   { regex: /^(签到|簽到)$/, command: CheckIn },
-  { regex: /^(转账|轉帳)\s+(<@!?\d+>)\s+(\d+)$/, command: Transfer }
+  { regex: /^(转账|轉帳)\s+(<@!?\d+>)\s+(\d+)$/, command: Transfer },
+  { regex: /^(老虎机|老虎機|拉霸)$/, command: Slot }
 ]
 
 commands.each do |regex:, command:|

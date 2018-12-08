@@ -43,6 +43,7 @@ GEM
     possibly (1.0.1)
     rbnacl (3.4.0)
       ffi
+    redux (0.1.1)
     rest-client (2.1.0.rc1-x86-mingw32)
       ffi (~> 1.9)
       http-accept (>= 1.7.0, < 2.0)
@@ -67,6 +68,7 @@ DEPENDENCIES
   discordrb (~> 3.3)
   mongoid (~> 7.0)
   possibly (~> 1.0)
+  redux (~> 0.1.1)
 
 BUNDLED WITH
    1.16.4
