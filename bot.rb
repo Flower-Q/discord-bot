@@ -1,5 +1,7 @@
 require 'discordrb'
 
+require_relative 'monkey_patches/reaction_add_event_handler'
+
 require_relative 'config/environment'
 require_relative 'config/mongoid'
 require_relative 'config/discord'

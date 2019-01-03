@@ -6,7 +6,6 @@ require_relative '../../helpers/slot_game_helper'
 
 require_relative 'constants'
 require_relative 'redux'
-require_relative 'patches'
 
 class Slot
   include Command
